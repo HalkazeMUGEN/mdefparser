@@ -1,0 +1,8 @@
+---
+Language: Cpp
+BasedOnStyle: Chromium
+AllowShortEnumsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+ColumnLimit: 150
+IndentCaseLabels: true
+...

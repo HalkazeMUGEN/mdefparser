@@ -1,0 +1,60 @@
+
+; Dummy section label
+[Dummy]
+
+[Info]
+; Spaces before key
+          name = "Kung Fu Man"
+
+; Spaces after key
+displayname              = "Kung Fu Man"
+
+; Spaces before value
+versiondate =            12,27,2007
+
+; Version month is not integer
+mugenversion = 04,XX,2002
+
+; Author is comment out
+; author = "Elecbyte"
+
+; Third pal defaults is not integer
+pal.defaults = 6,3,x,2
+
+[Files]
+; Key is strange case
+cMD     = kfm.cmd
+CnS     = kfm.cns
+
+; Duplicate key
+st      = kfm.cns
+st      = dummy.cns
+
+; Skip st0-st1
+st2     = 2.st
+; Skip st3-st7
+st8     = 8.st
+
+; Original common file
+stcommon = common.cns
+
+; Extension is not sff
+sprite  = kfm.pcx
+
+; Extension is not air
+anim    = anim.st
+
+; Missing value
+sound   =
+
+; No spaces
+pal1=kfm.act
+
+[Arcade]
+intro.storyboard = intro.def
+ending.storyboard = ending.def
+
+; Duplicate section
+[Arcade]
+intro.storyboard = dummy.def
+ending.storyboard = dummy.def
