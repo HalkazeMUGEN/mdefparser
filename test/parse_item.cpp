@@ -42,47 +42,30 @@ TEST(test_parse_item, parse_win_kfm) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Name>(kfmdef), "Kung Fu Man");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::DsiplayName>(kfmdef));
-  auto displayName = parser.parse_item<mugen::def::DefParseKey::DsiplayName>(kfmdef);
-  EXPECT_TRUE(displayName);
-  if (displayName) {
-    EXPECT_EQ(*displayName, "Kung Fu Man");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::DsiplayName>(kfmdef), "Kung Fu Man");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::VersionDate>(kfmdef));
   auto versionDate = parser.parse_item<mugen::def::DefParseKey::VersionDate>(kfmdef);
-  EXPECT_TRUE(versionDate);
-  if (versionDate) {
-    EXPECT_EQ(versionDate->month, 12);
-    EXPECT_EQ(versionDate->day, 27);
-    EXPECT_EQ(versionDate->year, 2007);
-  }
+  EXPECT_EQ(versionDate.month, 12);
+  EXPECT_EQ(versionDate.day, 27);
+  EXPECT_EQ(versionDate.year, 2007);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::MugenVersion>(kfmdef));
   auto mugenVersion = parser.parse_item<mugen::def::DefParseKey::MugenVersion>(kfmdef);
-  EXPECT_TRUE(mugenVersion);
-  if (mugenVersion) {
-    EXPECT_EQ(mugenVersion->month, 4);
-    EXPECT_EQ(mugenVersion->day, 14);
-    EXPECT_EQ(mugenVersion->year, 2002);
-  }
+  EXPECT_EQ(mugenVersion.month, 4);
+  EXPECT_EQ(mugenVersion.day, 14);
+  EXPECT_EQ(mugenVersion.year, 2002);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Author>(kfmdef));
-  auto author = parser.parse_item<mugen::def::DefParseKey::Author>(kfmdef);
-  EXPECT_TRUE(author);
-  if (author) {
-    EXPECT_EQ(*author, "Elecbyte");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Author>(kfmdef), "Elecbyte");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::PalDefaults>(kfmdef));
   auto palDefaults = parser.parse_item<mugen::def::DefParseKey::PalDefaults>(kfmdef);
-  EXPECT_TRUE(palDefaults);
-  if (palDefaults) {
-    EXPECT_EQ(palDefaults->size(), 4);
-    EXPECT_EQ(palDefaults->operator[](0), 6);
-    EXPECT_EQ(palDefaults->operator[](1), 3);
-    EXPECT_EQ(palDefaults->operator[](2), 4);
-    EXPECT_EQ(palDefaults->operator[](3), 2);
-  }
+  EXPECT_EQ(palDefaults.size(), 4);
+  EXPECT_EQ(palDefaults[0], 6);
+  EXPECT_EQ(palDefaults[1], 3);
+  EXPECT_EQ(palDefaults[2], 4);
+  EXPECT_EQ(palDefaults[3], 2);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Cmd>(kfmdef));
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Cmd>(kfmdef), "kfm.cmd");
@@ -94,11 +77,7 @@ TEST(test_parse_item, parse_win_kfm) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::St>(kfmdef), "kfm.cns");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::StCommon>(kfmdef));
-  auto stCommon = parser.parse_item<mugen::def::DefParseKey::StCommon>(kfmdef);
-  EXPECT_TRUE(stCommon);
-  if (stCommon) {
-    EXPECT_EQ(*stCommon, "common1.cns");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::StCommon>(kfmdef), "common1.cns");
 
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St0>(kfmdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St0>(kfmdef), mugen::def::MissingKeyError);
@@ -122,11 +101,7 @@ TEST(test_parse_item, parse_win_kfm) {
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St9>(kfmdef), mugen::def::MissingKeyError);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Ai>(kfmdef));
-  auto ai = parser.parse_item<mugen::def::DefParseKey::Ai>(kfmdef);
-  EXPECT_TRUE(ai);
-  if (ai) {
-    EXPECT_EQ(*ai, "kfm.ai");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Ai>(kfmdef), "kfm.ai");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Sprite>(kfmdef));
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Sprite>(kfmdef), "kfm.sff");
@@ -135,48 +110,20 @@ TEST(test_parse_item, parse_win_kfm) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Anim>(kfmdef), "kfm.air");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Sound>(kfmdef));
-  auto sound = parser.parse_item<mugen::def::DefParseKey::Sound>(kfmdef);
-  EXPECT_TRUE(sound);
-  if (sound) {
-    EXPECT_EQ(*sound, "kfm.snd");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Sound>(kfmdef), "kfm.snd");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal1>(kfmdef));
-  auto pal1 = parser.parse_item<mugen::def::DefParseKey::Pal1>(kfmdef);
-  EXPECT_TRUE(pal1);
-  if (pal1) {
-    EXPECT_EQ(*pal1, "kfm6.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal1>(kfmdef), "kfm6.act");
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal2>(kfmdef));
-  auto pal2 = parser.parse_item<mugen::def::DefParseKey::Pal2>(kfmdef);
-  EXPECT_TRUE(pal2);
-  if (pal2) {
-    EXPECT_EQ(*pal2, "kfm4.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal2>(kfmdef), "kfm4.act");
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal3>(kfmdef));
-  auto pal3 = parser.parse_item<mugen::def::DefParseKey::Pal3>(kfmdef);
-  EXPECT_TRUE(pal3);
-  if (pal3) {
-    EXPECT_EQ(*pal3, "kfm2.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal3>(kfmdef), "kfm2.act");
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal4>(kfmdef));
-  auto pal4 = parser.parse_item<mugen::def::DefParseKey::Pal4>(kfmdef);
-  EXPECT_TRUE(pal4);
-  if (pal4) {
-    EXPECT_EQ(*pal4, "kfm5.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal4>(kfmdef), "kfm5.act");
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal5>(kfmdef));
-  auto pal5 = parser.parse_item<mugen::def::DefParseKey::Pal5>(kfmdef);
-  EXPECT_TRUE(pal5);
-  if (pal5) {
-    EXPECT_EQ(*pal5, "kfm3.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal5>(kfmdef), "kfm3.act");
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal6>(kfmdef));
-  auto pal6 = parser.parse_item<mugen::def::DefParseKey::Pal6>(kfmdef);
-  EXPECT_TRUE(pal6);
-  if (pal6) {
-    EXPECT_EQ(*pal6, "kfm.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal6>(kfmdef), "kfm.act");
 
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::Pal7>(kfmdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::Pal7>(kfmdef), mugen::def::MissingKeyError);
@@ -192,18 +139,10 @@ TEST(test_parse_item, parse_win_kfm) {
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::Pal12>(kfmdef), mugen::def::MissingKeyError);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Intro>(kfmdef));
-  auto intro = parser.parse_item<mugen::def::DefParseKey::Intro>(kfmdef);
-  EXPECT_TRUE(intro);
-  if (intro) {
-    EXPECT_EQ(*intro, "intro.def");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Intro>(kfmdef), "intro.def");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Ending>(kfmdef));
-  auto ending = parser.parse_item<mugen::def::DefParseKey::Ending>(kfmdef);
-  EXPECT_TRUE(ending);
-  if (ending) {
-    EXPECT_EQ(*ending, "ending.def");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Ending>(kfmdef), "ending.def");
 }
 
 TEST(test_parse_item, parse_win_test) {
@@ -215,41 +154,28 @@ TEST(test_parse_item, parse_win_test) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Name>(testdef), "Kung Fu Man");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::DsiplayName>(testdef));
-  auto displayName = parser.parse_item<mugen::def::DefParseKey::DsiplayName>(testdef);
-  EXPECT_TRUE(displayName);
-  if (displayName) {
-    EXPECT_EQ(*displayName, "Kung Fu Man");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::DsiplayName>(testdef), "Kung Fu Man");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::VersionDate>(testdef));
   auto versionDate = parser.parse_item<mugen::def::DefParseKey::VersionDate>(testdef);
-  EXPECT_TRUE(versionDate);
-  if (versionDate) {
-    EXPECT_EQ(versionDate->month, 12);
-    EXPECT_EQ(versionDate->day, 27);
-    EXPECT_EQ(versionDate->year, 2007);
-  }
+  EXPECT_EQ(versionDate.month, 12);
+  EXPECT_EQ(versionDate.day, 27);
+  EXPECT_EQ(versionDate.year, 2007);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::MugenVersion>(testdef));
   auto mugenVersion = parser.parse_item<mugen::def::DefParseKey::MugenVersion>(testdef);
-  EXPECT_TRUE(mugenVersion);
-  if (mugenVersion) {
-    EXPECT_EQ(mugenVersion->month, 4);
-    EXPECT_EQ(mugenVersion->day, 0);
-    EXPECT_EQ(mugenVersion->year, 0);
-  }
+  EXPECT_EQ(mugenVersion.month, 4);
+  EXPECT_EQ(mugenVersion.day, 0);
+  EXPECT_EQ(mugenVersion.year, 0);
 
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::Author>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::Author>(testdef), mugen::def::MissingKeyError);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::PalDefaults>(testdef));
   auto palDefaults = parser.parse_item<mugen::def::DefParseKey::PalDefaults>(testdef);
-  EXPECT_TRUE(palDefaults);
-  if (palDefaults) {
-    EXPECT_EQ(palDefaults->size(), 2);
-    EXPECT_EQ(palDefaults->operator[](0), 6);
-    EXPECT_EQ(palDefaults->operator[](1), 3);
-  }
+  EXPECT_EQ(palDefaults.size(), 2);
+  EXPECT_EQ(palDefaults[0], 6);
+  EXPECT_EQ(palDefaults[1], 3);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Cmd>(testdef));
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Cmd>(testdef), "kfm.cmd");
@@ -261,22 +187,14 @@ TEST(test_parse_item, parse_win_test) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::St>(testdef), "kfm.cns");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::StCommon>(testdef));
-  auto stCommon = parser.parse_item<mugen::def::DefParseKey::StCommon>(testdef);
-  EXPECT_TRUE(stCommon);
-  if (stCommon) {
-    EXPECT_EQ(*stCommon, "common.cns");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::StCommon>(testdef), "common.cns");
 
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St0>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St0>(testdef), mugen::def::MissingKeyError);
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St1>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St1>(testdef), mugen::def::MissingKeyError);
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::St2>(testdef));
-  auto st2 = parser.parse_item<mugen::def::DefParseKey::St2>(testdef);
-  EXPECT_TRUE(st2);
-  if (st2) {
-    EXPECT_EQ(*st2, "2.st");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::St2>(testdef), "2.st");
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St3>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St3>(testdef), mugen::def::MissingKeyError);
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St4>(testdef));
@@ -288,11 +206,7 @@ TEST(test_parse_item, parse_win_test) {
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St7>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St7>(testdef), mugen::def::MissingKeyError);
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::St8>(testdef));
-  auto st8 = parser.parse_item<mugen::def::DefParseKey::St8>(testdef);
-  EXPECT_TRUE(st8);
-  if (st8) {
-    EXPECT_EQ(*st8, "8.st");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::St8>(testdef), "8.st");
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::St9>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::St9>(testdef), mugen::def::MissingKeyError);
 
@@ -306,18 +220,10 @@ TEST(test_parse_item, parse_win_test) {
   EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Anim>(testdef), "anim.st");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Sound>(testdef));
-  auto sound = parser.parse_item<mugen::def::DefParseKey::Sound>(testdef);
-  EXPECT_TRUE(sound);
-  if (sound) {
-    EXPECT_EQ(*sound, "");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Sound>(testdef), "");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Pal1>(testdef));
-  auto pal1 = parser.parse_item<mugen::def::DefParseKey::Pal1>(testdef);
-  EXPECT_TRUE(pal1);
-  if (pal1) {
-    EXPECT_EQ(*pal1, "kfm.act");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Pal1>(testdef), "kfm.act");
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::Pal2>(testdef));
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::Pal2>(testdef), mugen::def::MissingKeyError);
   EXPECT_ANY_THROW(parser.parse_item<mugen::def::DefParseKey::Pal3>(testdef));
@@ -342,18 +248,10 @@ TEST(test_parse_item, parse_win_test) {
   EXPECT_THROW(parser.parse_item<mugen::def::DefParseKey::Pal12>(testdef), mugen::def::MissingKeyError);
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Intro>(testdef));
-  auto intro = parser.parse_item<mugen::def::DefParseKey::Intro>(testdef);
-  EXPECT_TRUE(intro);
-  if (intro) {
-    EXPECT_EQ(*intro, "intro.def");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Intro>(testdef), "intro.def");
 
   EXPECT_NO_THROW(parser.parse_item<mugen::def::DefParseKey::Ending>(testdef));
-  auto ending = parser.parse_item<mugen::def::DefParseKey::Ending>(testdef);
-  EXPECT_TRUE(ending);
-  if (ending) {
-    EXPECT_EQ(*ending, "ending.def");
-  }
+  EXPECT_EQ(parser.parse_item<mugen::def::DefParseKey::Ending>(testdef), "ending.def");
 }
 
 TEST(test_parse_item, missing_win) {
