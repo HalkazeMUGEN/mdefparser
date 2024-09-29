@@ -61,7 +61,7 @@ else(MSVC)
     PUBLIC
     -Wall -Wextra -mavx -mfpmath=sse
     $<$<CONFIG:Debug>:-Og -g>
-    $<$<CONFIG:Release>:-s -Ofast -ftree-vectorize -fomit-frame-pointer>
+    $<$<CONFIG:Release>:-Ofast -ftree-vectorize -fomit-frame-pointer>
   )
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     # for x64
