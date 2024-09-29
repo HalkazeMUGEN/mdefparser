@@ -1,6 +1,9 @@
 name: Release
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -21,7 +24,6 @@ jobs:
       id: tag
       run: echo "NEXT_VERSION=`gh release list | grep "Draft" | awk '{print $3}'`" >> $GITHUB_OUTPUT
 
-
     - name: Get versions
       id: versions
       run: |
@@ -34,13 +36,27 @@ jobs:
         sed -i -zr "s/set\(MDEFPARSER_VERSION_MAJOR [0-9]*\)/set(VERSION_MAJOR ${{ steps.versions.outputs.MAJOR }})/" CMakeLists.txt
         sed -i -zr "s/set\(MDEFPARSER_VERSION_MINOR [0-9]*\)/set(VERSION_MINOR ${{ steps.versions.outputs.MINOR }})/" CMakeLists.txt
         sed -i -zr "s/set\(MDEFPARSER_VERSION_PATCH [0-9]*\)/set(VERSION_PATCH ${{ steps.versions.outputs.PATCH }})/" CMakeLists.txt
+        sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v${{ steps.versions.outputs.MAJOR }}.\2.\3" README.md
+        sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v\1.${{ steps.versions.outputs.MINOR }}.\3" README.md
+        sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v\1.\2.${{ steps.versions.outputs.PATCH }}" README.md
 
     - name: Commit updates
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "action"
         git add .
-        (git commit -m "Update Versions by Github Actions" && git push origin main) || expr 1 > /dev/null
+        git commit -m "Update Versions by Github Actions"
+        git branch -M release
+        git push -u origin release
 
-    - name: Release from draft
-      run: gh release edit ${{ steps.tag.outputs.NEXT_VERSION }} --draft=false
+    - name: Create release PR
+      uses: peter-evans/create-pull-requests@v7
+      with:
+        branch: release
+        base: main
+        title: 'Bump version number'
+        body: Auto-generated pull request to update the version number.
+        draft: false
+        labels: |
+          bot
+          skip-changelog
