@@ -1,7 +1,6 @@
 #include <mdefparser/mdefparser.h>
 
 #include <filesystem>
-#include <format>
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -32,7 +31,7 @@ int main(int argc, char** argv) {
     // Example.3: get version parameter
     if (def.info.mugenVersion.has_value()) {
       auto version = def.info.mugenVersion.value();
-      std::cout << std::format("mugenversion: {}.{}.{}", version.month, version.day, version.year) << std::endl;
+      std::cout << "mugenversion: " << version.month << "." << version.day << "." << version.year << std::endl;
     } else {
       std::cout << "mugenversion: (null)" << std::endl;
     }
