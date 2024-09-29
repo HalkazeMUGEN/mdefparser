@@ -12,6 +12,10 @@ permissions:
 jobs:
   check-format:
     runs-on: ubuntu-latest
+
+    outputs:
+      any_changed: ${{ steps.changes.outputs.any_changed }}
+
     steps:
     - uses: actions/checkout@v4
 
@@ -27,7 +31,7 @@ jobs:
           **/*.hpp
 
     - name: Check format
-      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      if: steps.changes.outputs.any_changed == 'true'
       env:
         CHANGED_FILES: ${{ steps.changes.outputs.all_changed_files }}
       run: |
@@ -37,6 +41,7 @@ jobs:
 
   build-and-test-win:
     needs: check-format
+    if: needs.check-format.outputs.any_changed == 'true'
     strategy:
       matrix:
         arch: [x86, x64]
@@ -63,6 +68,7 @@ jobs:
 
   build-and-test-linux:
     needs: check-format
+    if: needs.check-format.outputs.any_changed == 'true'
     strategy:
       matrix:
         arch: [x86, x64]
