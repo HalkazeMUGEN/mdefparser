@@ -50,8 +50,8 @@ void parse_example(const std::filesystem::path& path) {
     auto parser = mugen::def::DefParserWin{};
     auto def = parser.parse(path);
     
-    std::cin << def.info.name << std::endl;
-    std::cin << *(def.info.displayname) << std::endl;
+    std::cout << def.info.name << std::endl;
+    std::cout << *(def.info.displayname) << std::endl;
   } catch (const std::runtime_error& e) {
     std::cerr << e.what() << std::endl;
   }
@@ -68,7 +68,7 @@ void parse_item_example(const std::filesystem::path& path) {
     auto parser = mugen::def::DefParserWin{};
     auto author = parser.parse_item<mugen::def::DefParseKey::Author>(path);
 
-    std::cin << author << std::endl;
+    std::cout << author << std::endl;
   } catch (const std::runtime_error& e) {
     std::cerr << e.what() << std::endl;
   }
