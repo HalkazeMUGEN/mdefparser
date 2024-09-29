@@ -1,0 +1,87 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - "main"
+      - "develop"
+
+permissions:
+  contents: write
+
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get changed files
+      id: changes
+      uses: tj-actions/changed-files@v45
+      with:
+        separator: " "
+        files: |
+          **/*.c
+          **/*.h
+          **/*.cpp
+          **/*.hpp
+
+    - name: Check format
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      env:
+        CHANGED_FILES: ${{ steps.changes.outputs.all_changed_files }}
+      run: |
+        echo "::add-matcher::.github/clang-format-matcher.json"
+        clang-format --dry-run --Werror -style=file:.clang-format ${{ env.CHANGED_FILES }}
+        echo "::remove-matcher owner=clang-format"
+
+  build-and-test-win:
+    needs: check-format
+    strategy:
+      matrix:
+        arch: [x86, x64]
+        variants: [debug, release]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
+
+    - name: Build
+      run: |
+        cmake -DMDEFPARSER_BUILD_ALL=ON --preset win-${{ matrix.arch }}-${{ matrix.variants }}
+        cmake --build build/win-${{ matrix.arch }}-${{ matrix.variants }}
+
+    - name: Test
+      run: |
+        cd build/win-${{ matrix.arch }}-${{ matrix.variants }}
+        ctest
+
+  build-and-test-linux:
+    needs: check-format
+    strategy:
+      matrix:
+        arch: [x86, x64]
+        variants: [debug, release]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install tools
+      run: sudo apt-get install ninja-build
+
+    - name: Build
+      run: |
+        cmake -DMDEFPARSER_BUILD_ALL=ON --preset linux-${{ matrix.arch }}-${{ matrix.variants }}
+        cmake --build build/linux-${{ matrix.arch }}-${{ matrix.variants }}
+
+    - name: Test
+      run: |
+        cd build/linux-${{ matrix.arch }}-${{ matrix.variants }}
+        ctest
