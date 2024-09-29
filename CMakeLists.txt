@@ -1,6 +1,18 @@
 cmake_minimum_required(VERSION 3.14)
 project(mdefparser VERSION 1.0.0 LANGUAGES CXX)
 
+# ==== Config ====
+
+option(MDEFPARSER_BUILD_ALL "Build all artifacts" OFF)
+
+option(MDEFPARSER_BUILD_EXAMPLE "Build example" OFF)
+option(MDEFPARSER_BUILD_EXAMPLE_HO "Build header only example" OFF)
+
+option(MDEFPARSER_BUILD_TESTS "Build tests" OFF)
+option(MDEFPARSER_BUILD_TESTS_HO "Build tests for header only version" OFF)
+
+# ================
+
 set(MDEFPARSER_SOURCES "include/mdefparser/impl/mdefparser.cpp")
 set(MDEFPARSER_HEADERS "include/mdefparser/mdefparser.h include/mdefparser/mugendef.hpp")
 
@@ -55,7 +67,7 @@ else(MSVC)
   endif(CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif(MSVC)
 
-# Define for header only
+# Define for header only version
 
 add_library(mdefparser_header_only INTERFACE)
 add_library(mdefparser::mdefparser_header_only ALIAS mdefparser_header_only)
@@ -73,36 +85,60 @@ if(MSVC)
   )
 endif(MSVC)
 
+# Define examples
+
+if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE OR MDEFPARSER_BUILD_EXAMPLE_HO)
+
+  if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE)
+    add_subdirectory(example/mdefparser)
+  endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE)
+
+  if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE_HO)
+    add_subdirectory(example/mdefparser_header_only)
+  endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE_HO)
+
+endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_EXAMPLE OR MDEFPARSER_BUILD_EXAMPLE_HO)
+
 # Define tests
 
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
-)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS OR MDEFPARSER_BUILD_TESTS_HO)
 
-set(MDEFPARSER_TEST_SOURCES test/parse.cpp test/parse_item.cpp)
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+  )
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
 
-add_executable(${PROJECT_NAME}-googletest ${MDEFPARSER_TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}-googletest mdefparser)
-target_link_libraries(${PROJECT_NAME}-googletest gtest_main)
+  set(MDEFPARSER_TEST_SOURCES test/parse.cpp test/parse_item.cpp)
 
-add_executable(${PROJECT_NAME}_header_only-googletest ${MDEFPARSER_TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}_header_only-googletest mdefparser_header_only)
-target_link_libraries(${PROJECT_NAME}_header_only-googletest gtest_main)
+  if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS)
+    add_executable(${PROJECT_NAME}-googletest ${MDEFPARSER_TEST_SOURCES})
+    target_link_libraries(${PROJECT_NAME}-googletest mdefparser)
+    target_link_libraries(${PROJECT_NAME}-googletest gtest_main)
+    add_test(NAME test COMMAND ${PROJECT_NAME}-googletest)
 
-add_test(NAME test COMMAND ${PROJECT_NAME}-googletest)
-add_test(NAME test_header_only COMMAND ${PROJECT_NAME}_header_only-googletest)
-enable_testing()
+    # Copy assets to working dir
+    add_custom_command(
+      TARGET ${PROJECT_NAME}-googletest POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}-googletest>/assets
+    )
+  endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS)
 
-# Copy assets to working dir
-add_custom_command(
-  TARGET ${PROJECT_NAME}-googletest POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}-googletest>/assets
-)
-add_custom_command(
-  TARGET ${PROJECT_NAME}_header_only-googletest POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}-googletest>/assets
-)
+  if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS_HO)
+    add_executable(${PROJECT_NAME}_header_only-googletest ${MDEFPARSER_TEST_SOURCES})
+    target_link_libraries(${PROJECT_NAME}_header_only-googletest mdefparser_header_only)
+    target_link_libraries(${PROJECT_NAME}_header_only-googletest gtest_main)
+    add_test(NAME test_header_only COMMAND ${PROJECT_NAME}_header_only-googletest)
+
+    # Copy assets to working dir
+    add_custom_command(
+      TARGET ${PROJECT_NAME}_header_only-googletest POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}-googletest>/assets
+    )
+  endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS_HO)
+
+  enable_testing()
+
+endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS OR MDEFPARSER_BUILD_TESTS_HO)
