@@ -18,7 +18,7 @@ include(FetchContent)
 FetchContent_Declare(
   mdefparser
   GIT_REPOSITORY https://github.com/HalkazeMUGEN/mdefparser.git
-  GIT_TAG v1.0.3
+  GIT_TAG v1.0.4
 )
 FetchContent_MakeAvailable(mdefparser)
 
