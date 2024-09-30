@@ -31,9 +31,9 @@ jobs:
 
     - name: Set versions
       run: |
-        sed -i -zr "s/set\(MDEFPARSER_VERSION_MAJOR [0-9]*\)/set(VERSION_MAJOR ${{ steps.versions.outputs.MAJOR }})/" CMakeLists.txt
-        sed -i -zr "s/set\(MDEFPARSER_VERSION_MINOR [0-9]*\)/set(VERSION_MINOR ${{ steps.versions.outputs.MINOR }})/" CMakeLists.txt
-        sed -i -zr "s/set\(MDEFPARSER_VERSION_PATCH [0-9]*\)/set(VERSION_PATCH ${{ steps.versions.outputs.PATCH }})/" CMakeLists.txt
+        sed -i -zr "s/set\(MDEFPARSER_VERSION_MAJOR [0-9]*\)/set(MDEFPARSER_VERSION_MAJOR ${{ steps.versions.outputs.MAJOR }})/" CMakeLists.txt
+        sed -i -zr "s/set\(MDEFPARSER_VERSION_MINOR [0-9]*\)/set(MDEFPARSER_VERSION_MINOR ${{ steps.versions.outputs.MINOR }})/" CMakeLists.txt
+        sed -i -zr "s/set\(MDEFPARSER_VERSION_PATCH [0-9]*\)/set(MDEFPARSER_VERSION_PATCH ${{ steps.versions.outputs.PATCH }})/" CMakeLists.txt
         sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v${{ steps.versions.outputs.MAJOR }}.\2.\3/" README.md
         sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v\1.${{ steps.versions.outputs.MINOR }}.\3/" README.md
         sed -i -zr "s/GIT_TAG v([0-9]*).([0-9]*).([0-9]*)/GIT_TAG v\1.\2.${{ steps.versions.outputs.PATCH }}/" README.md
