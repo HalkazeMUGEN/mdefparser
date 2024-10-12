@@ -1,7 +1,7 @@
 /**
  * @file exception.hpp
  * @author Halkaze
- * @date 2024-09-28
+ * @date 2024-10-13
  *
  * @copyright Copyright (c) 2024
  *
@@ -19,8 +19,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef EXCEPTION_HPP__
-#define EXCEPTION_HPP__
+#ifndef MDEFPARSER_EXCEPTION_HPP__
+#define MDEFPARSER_EXCEPTION_HPP__
 
 #include "mdefparser/mdefparser.h"
 
@@ -51,4 +51,4 @@ class MissingKeyError : public std::runtime_error {
 };  // namespace def
 };  // namespace mugen
 
-#endif  // EXCEPTION_HPP__
+#endif  // MDEFPARSER_EXCEPTION_HPP__

@@ -1,7 +1,7 @@
 /**
  * @file mugendef.hpp
  * @author Halkaze
- * @date 2024-09-28
+ * @date 2024-10-13
  *
  * @copyright Copyright (c) 2024
  *
@@ -19,8 +19,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef MUGENDEF_HPP__
-#define MUGENDEF_HPP__
+#ifndef MDEFPARSER_MUGENDEF_HPP__
+#define MDEFPARSER_MUGENDEF_HPP__
 
 #include "mdefparser/mdefparser.h"
 
@@ -342,4 +342,4 @@ struct MugenDef<MugenVersion::Win> {
 };  // namespace def
 };  // namespace mugen
 
-#endif  // MUGENDEF_HPP__
+#endif  // MDEFPARSER_MUGENDEF_HPP__
