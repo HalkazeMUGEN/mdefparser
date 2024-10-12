@@ -140,7 +140,7 @@ if(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS OR MDEFPARSER_BUILD_TESTS_HO)
     # Copy assets to working dir
     add_custom_command(
       TARGET ${PROJECT_NAME}_header_only-googletest POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}-googletest>/assets
+      COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/test/assets $<TARGET_FILE_DIR:${PROJECT_NAME}_header_only-googletest>/assets
     )
   endif(MDEFPARSER_BUILD_ALL OR MDEFPARSER_BUILD_TESTS_HO)
 
